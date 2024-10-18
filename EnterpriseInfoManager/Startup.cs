@@ -1,3 +1,4 @@
+using EnterpriseInfoManager.Data;
 using EnterpriseInfoManager.Models;
 using EnterpriseInfoManager.Repositories;
 using Microsoft.Extensions.Options;
@@ -21,10 +22,18 @@ builder.Services.AddScoped(s =>
 
 builder.Services.AddScoped<DepartmentRepository>();
 builder.Services.AddScoped<EmployeeRepository>();
+builder.Services.AddScoped<DatabaseSeeder>();
 
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+// Seed the database
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<DatabaseSeeder>();
+    await seeder.SeedAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -56,7 +56,7 @@ namespace EnterpriseInfoManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Name")] Department department)
         {
-            if (!int.TryParse(id, out int departmentId) || departmentId != department.Id)
+            if (id != department.Id.ToString())
             {
                 return NotFound();
             }

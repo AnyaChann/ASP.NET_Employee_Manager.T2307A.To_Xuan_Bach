@@ -21,11 +21,7 @@ namespace EnterpriseInfoManager.Repositories
 
         public async Task<Department?> GetByIdAsync(string id)
         {
-            if (int.TryParse(id, out int intId))
-            {
-                return await _departments.Find(d => d.Id == intId).FirstOrDefaultAsync();
-            }
-            return null;
+            return await _departments.Find(d => d.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task CreateAsync(Department department)
@@ -35,18 +31,12 @@ namespace EnterpriseInfoManager.Repositories
 
         public async Task UpdateAsync(string id, Department department)
         {
-            if (int.TryParse(id, out int intId))
-            {
-                await _departments.ReplaceOneAsync(d => d.Id == intId, department);
-            }
+            await _departments.ReplaceOneAsync(d => d.Id == id, department);
         }
 
         public async Task DeleteAsync(string id)
         {
-            if (int.TryParse(id, out int intId))
-            {
-                await _departments.DeleteOneAsync(d => d.Id == intId);
-            }
+            await _departments.DeleteOneAsync(d => d.Id == id);
         }
     }
 }
