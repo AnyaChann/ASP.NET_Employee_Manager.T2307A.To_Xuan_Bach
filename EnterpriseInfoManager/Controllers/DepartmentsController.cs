@@ -14,20 +14,16 @@ namespace EnterpriseInfoManager.Controllers
             _departmentRepository = departmentRepository;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var departments = await _departmentRepository.GetAllAsync();
-            return View(departments);
-        }
-
+        // GET: Departments/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        // POST: Departments/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Department department)
+        public async Task<IActionResult> Create([Bind("Name")] Department department)
         {
             if (ModelState.IsValid)
             {
@@ -37,60 +33,10 @@ namespace EnterpriseInfoManager.Controllers
             return View(department);
         }
 
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Index()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var department = await _departmentRepository.GetByIdAsync(id);
-            if (department == null)
-            {
-                return NotFound();
-            }
-            return View(department);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name")] Department department)
-        {
-            if (id != department.Id.ToString())
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                await _departmentRepository.UpdateAsync(id, department);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(department);
-        }
-
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var department = await _departmentRepository.GetByIdAsync(id);
-            if (department == null)
-            {
-                return NotFound();
-            }
-
-            return View(department);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            await _departmentRepository.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
+            var departments = await _departmentRepository.GetAllAsync();
+            return View(departments);
         }
     }
 }

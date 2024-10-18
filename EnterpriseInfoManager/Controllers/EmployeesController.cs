@@ -17,12 +17,6 @@ namespace EnterpriseInfoManager.Controllers
             _departmentRepository = departmentRepository;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var employees = await _employeeRepository.GetAllAsync();
-            return View(employees);
-        }
-
         public async Task<IActionResult> Create()
         {
             ViewData["DepartmentId"] = new SelectList(await _departmentRepository.GetAllAsync(), "Id", "Name");
@@ -31,7 +25,7 @@ namespace EnterpriseInfoManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Salary,Status,JoiningDate,DepartmentId")] Employee employee)
+        public async Task<IActionResult> Create([Bind("Name,Salary,Status,JoiningDate,DepartmentId")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -42,62 +36,10 @@ namespace EnterpriseInfoManager.Controllers
             return View(employee);
         }
 
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Index()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var employee = await _employeeRepository.GetByIdAsync(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-            ViewData["DepartmentId"] = new SelectList(await _departmentRepository.GetAllAsync(), "Id", "Name", employee.DepartmentId);
-            return View(employee);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Salary,Status,JoiningDate,DepartmentId")] Employee employee)
-        {
-            if (id != employee.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                await _employeeRepository.UpdateAsync(id, employee);
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["DepartmentId"] = new SelectList(await _departmentRepository.GetAllAsync(), "Id", "Name", employee.DepartmentId);
-            return View(employee);
-        }
-
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var employee = await _employeeRepository.GetByIdAsync(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return View(employee);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            await _employeeRepository.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
+            var employees = await _employeeRepository.GetAllAsync();
+            return View(employees);
         }
     }
 }
