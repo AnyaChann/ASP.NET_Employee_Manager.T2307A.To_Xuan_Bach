@@ -19,7 +19,7 @@ namespace EnterpriseInfoManager.Repositories
             return await _employees.Find(e => true).ToListAsync();
         }
 
-        public async Task<Employee> GetByIdAsync(string id)
+        public async Task<Employee?> GetByIdAsync(string id)
         {
             return await _employees.Find(e => e.Id == id).FirstOrDefaultAsync();
         }
