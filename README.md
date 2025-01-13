@@ -1,6 +1,6 @@
 # Enterprise Info Manager
 
-Enterprise Info Manager is an ASP.NET Core MVC application that manages employees and departments. The application uses MongoDB for data storage.
+Enterprise Info Manager is an ASP.NET Core MVC application that manages employees and departments. The application uses MongoDB for data storage. (This is just a sketchy program i made while learning ASP.NET Core, so it might have a lot of bugs)
 
 ## Features
 
